@@ -19,16 +19,16 @@ namespace KursLab
         {
             InitializeComponent();
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
-
+            
             this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
             {
                 Direction = 270,
-                Spreading = 10,
+                Spreading = 50,
                 SpeedMin = 3,
                 SpeedMax = 5,
                 ColorFrom = Color.Gold,
                 ColorTo = Color.FromArgb(0, Color.DarkViolet),
-                ParticlesPerTick = 15,
+                ParticlesPerTick = 1,
                 X = picDisplay.Width ,
                 Y = picDisplay.Height ,
             };
@@ -66,12 +66,50 @@ namespace KursLab
             emitter.MousePositionY = e.Y;
         }
 
-        
-
         private void TbSpreading_Scroll(object sender, EventArgs e)
         {
-            emitter.Spreading = TbSpreading.Value;
-            lbSpreading.Text = $"{TbSpreading.Value}°";
+            if (TbTimeSpeed.Value == 0)
+            { timer.Enabled = false; }
+            else
+            {
+                timer.Enabled = true;
+                if (TbTimeSpeed.Maximum - TbTimeSpeed.Value <= 0)
+                {
+                    timer.Interval = TbTimeSpeed.Maximum - TbTimeSpeed.Value+1;
+                    lbSpreading.Text = $"{timer.Interval}°";
+                }
+
+            
+                else
+                { timer.Interval = TbTimeSpeed.Maximum-TbTimeSpeed.Value;
+                lbSpreading.Text = $"{timer.Interval}°";}
+                
+
+            }
+            
+        }
+
+        bool flag = false;
+        private void Start_Click(object sender, EventArgs e)
+        {
+            if (flag)
+            {
+                timer.Enabled = true;
+                TbTimeSpeed.Enabled = true;
+            }
+            else
+            {
+                timer.Enabled = false;
+                TbTimeSpeed.Enabled = false;
+            }
+            flag = !flag;
+        }
+
+        private void Step_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = false;
+            flag = true;
+            timerTick(sender,e);
         }
     }
 }

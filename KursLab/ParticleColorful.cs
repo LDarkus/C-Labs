@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace KursLab
 
             public Color FromColor;//начальный цвет
             public Color ToColor;//новый цвет
+            
 
             public static Color MixColor(Color color1, Color color2, float k)
             {
@@ -39,6 +41,17 @@ namespace KursLab
                 // остальное все так же
                 g.FillEllipse(b, X - Radius, Y - Radius, Radius * 2, Radius * 2);
 
+
+            g.FillRectangle(new SolidBrush(Color.White), X, Y, 30, 20);
+            g.DrawString(
+                $"Жизнь: {Life}\nX: {X}\nY:{Y}", // надпись, можно перенос строки вставлять (если вы Катя, то может не работать и надо использовать \r\n)
+                new Font("Verdana", 10), // шрифт и его размер
+                new SolidBrush(Color.White), // цвет шрифта
+                X, // расположение в пространстве
+                Y
+            );
+            Pen pen = new Pen(Color.GreenYellow, 1);
+                 g.DrawLine(pen,X, Y, X+SpeedX, Y+SpeedY);
                 b.Dispose();
             
 

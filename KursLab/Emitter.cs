@@ -21,8 +21,8 @@ namespace KursLab
         public int Spreading = 360; // разброс частиц относительно Direction
         public int SpeedMin = 1; // начальная минимальная скорость движения частицы
         public int SpeedMax = 10; // начальная максимальная скорость движения частицы
-        public int RadiusMin = 5; // минимальный радиус частицы
-        public int RadiusMax = 10; // максимальный радиус частицы
+        public int RadiusMin = 10; // минимальный радиус частицы
+        public int RadiusMax = 20; // максимальный радиус частицы
         public int LifeMin = 20; // минимальное время жизни частицы
         public int LifeMax = 100; // максимальное время жизни частицы
 
@@ -47,20 +47,24 @@ namespace KursLab
                 particle.Life--;
                 if (particle.Life < 0)
                 {
-                    particle.Life = 0;
+                    if(particle.Life == 0);
+                    { ResetParticle(particle); }
                     if (particlesToCreate > 0)
                     {
                         /* у нас как сброс частицы равносилен созданию частицы */
                         particlesToCreate -= 1; // поэтому уменьшаем счётчик созданных частиц на 1
                         ResetParticle(particle);
+
                     }
                     
+
                 }
                 else
                 {
                     foreach (var point in impactPoints)
                     {
                         point.ImpactParticle(particle);
+                        
                     }
 
                     // а это старый код, его не трогаем
@@ -69,6 +73,7 @@ namespace KursLab
 
                     particle.X += particle.SpeedX;
                     particle.Y += particle.SpeedY;
+                    
                 }
 
 
@@ -152,6 +157,7 @@ namespace KursLab
 
                 particle.SpeedX -= gX * Power / r2; // тут минусики вместо плюсов
                 particle.SpeedY -= gY * Power / r2; // и тут
+                
             }
         }
 
